@@ -248,7 +248,7 @@
                 </span>
 
                 <span class="link-block">
-                  <a href="https://huggingface.co/datasets/space" target="_blank"
+                  <a href="https://huggingface.co/spaces/MMInstruction/VL-RewardBench" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-database"></i>
@@ -257,7 +257,7 @@
                   </a>
                 </span>
                 <span class="link-block">
-                  <a href="https://github.com/" target="_blank"
+                  <a href="https://huggingface.co/spaces/MMInstruction/VL-RewardBench" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-share-square"></i>
@@ -282,14 +282,16 @@
           We introduce a novel benchmark VL-RewardBench, designed to expose limitations of vision-language reward models across visual perception, hallucination detection, and reasoning tasks.<br> 
          <!-- State-of-the-art models such as GPT-4o and Gemini-1.5-Pro achieve only moderate binary judgement accuracy (~62.5%), while state-of-the-art open-source models struggle near chance level.<br> -->
          Our evaluation reveals including that models primarily fail at basic visual perception rather than reasoning, and that performance on our benchmark strongly correlates (r>0.9) with downstream vision-language tasks.
+        
         </h4>
       </div>
     </div>
   </section>
-
-
+  <h4 class="subtitle has-text-centered">
+  <a>Leaderboard (2024-11-26): </a>
+</h4>
   <div style="text-align: center;">
-    <img id="teaser" width="85%" src="./images/vl-rewardbench.png">     
+    <img id="teaser" width="70%" src="./images/vl-rewardbench-leaderboard.png">     
   </div>
   
   <section class="section"  style="background-color:#efeff081">
@@ -301,21 +303,272 @@
           <div class="content has-text-justified">
             <p>
               Vision-language generative reward models (VL-GenRMs) play a crucial role in aligning and evaluating multimodal AI systems, yet their own evaluation remains under-explored. 
-Current assessment methods primarily rely on AI-annotated preference labels from traditional VL tasks, which can introduce biases and often fail to effectively challenge state-of-the-art models.
-To address these limitations, we introduce VL-RewardBench, a comprehensive benchmark spanning general multimodal queries, visual hallucination detection, and complex reasoning tasks.
-Through our AI-assisted annotation pipeline combining sample selection with human verification, we curate 1,250 high-quality examples specifically designed to probe model limitations.
-Comprehensive evaluation across 16 leading large vision-language models, demonstrates VL-RewardBench's effectiveness as a challenging testbed, where even GPT-4o achieves only 65.4% accuracy, and state-of-the-art open-source models such as Qwen2-VL-72B, struggle to surpass random-guessing. 
-Importantly, performance on VL-RewardBench strongly correlates (Pearson's r > 0.9) with MMMU-Pro accuracy using Best-of-N sampling with VL-GenRMs.
-Analysis experiments uncover three critical insights for improving VL-GenRMs: (i) models predominantly fail at basic visual perception tasks rather than reasoning tasks; 
-(ii) inference-time scaling benefits vary dramatically by model capacity; and (iii) training VL-GenRMs to learn to judge substantially boosts judgment capability (+13.1% accuracy for a 7B VL-GenRM). 
-We believe VL-RewardBench along with the experimental insights will become a valuable resource for advancing VL-GenRMs.
+              Current assessment methods primarily rely on AI-annotated preference labels from traditional VL tasks, which can introduce biases and often fail to effectively challenge state-of-the-art models.
+              To address these limitations, we introduce VL-RewardBench, a comprehensive benchmark spanning general multimodal queries, visual hallucination detection, and complex reasoning tasks.
+              Through our AI-assisted annotation pipeline combining sample selection with human verification, we curate 1,250 high-quality examples specifically designed to probe model limitations.
+              Comprehensive evaluation across 16 leading large vision-language models, demonstrates VL-RewardBench's effectiveness as a challenging testbed, where even GPT-4o achieves only 65.4% accuracy, and state-of-the-art open-source models such as Qwen2-VL-72B, struggle to surpass random-guessing. 
+              Importantly, performance on VL-RewardBench strongly correlates (Pearson's r > 0.9) with MMMU-Pro accuracy using Best-of-N sampling with VL-GenRMs.
+              Analysis experiments uncover three critical insights for improving VL-GenRMs: (i) models predominantly fail at basic visual perception tasks rather than reasoning tasks; 
+              (ii) inference-time scaling benefits vary dramatically by model capacity; and (iii) training VL-GenRMs to learn to judge substantially boosts judgment capability (+14.7% accuracy for a 7B VL-GenRM).
+              We believe VL-RewardBench along with the experimental insights will become a valuable resource for advancing VL-GenRMs.
            </p>
-  
           </div>
         </div>
       </div>
-        
     </div>
+  </section>
+
+  <section class="section">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Data Curation Pipeline</h2>
+      </div>
+    </div>
+  
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <div class="requirements-box mb-4">
+              <p class="mb-3">
+                Ideally, an effective benchmark for VL-GenRMs should satisfy three key requirements:
+              </p>
+              <div class="requirements-list">
+                <span class="requirement">a) diverse coverage of real-world applications</span>
+                <span class="requirement">b) sufficient difficulty to expose current models' limitations</span>
+                <span class="requirement">c) objective ground truth labels</span>
+              </div>
+            </div>
+  
+            <div class="methodology-section">
+              <p class="mb-3">
+                To satisfy criterion (a), our benchmark evaluates VL-GenRMs across three key application domains:
+              </p>
+              <div class="domains-list mb-4">
+                <div class="domain-item">
+                  <span class="domain-number">1.</span>
+                  <span>General multimodal queries from real users (VLFeedback and WildVision)</span>
+                </div>
+                <div class="domain-item">
+                  <span class="domain-number">2.</span>
+                  <span>Visual hallucination detection tasks (POVID, RLAIF, RLHF-V)</span>
+                </div>
+                <div class="domain-item">
+                  <span class="domain-number">3.</span>
+                  <span>Multimodal knowledge and mathematical reasoning (MMMU-Pro and MathVerse)</span>
+                </div>
+              </div>
+  
+              <p class="mb-3">
+                To ensure criterion (b), we employ targeted curation strategies:
+              </p>
+              <ul class="strategy-list mb-4">
+                <li>For source datasets with preference pairs, we employ small LVLMs collaboratively to filter out challenging samples, which our evaluation shows remain difficult even for much larger models.</li>
+                <li>For reasoning tasks without annotated labels, we leverage strong commercial models to generate responses with explicit reasoning paths, followed by GPT-4's quality assessment.</li>
+              </ul>
+  
+              <!-- <p class="verification-note"> -->
+                To fulfill criterion (c), <strong>all preference labels undergo human verification to eliminate ambiguous or incorrect pairs</strong>.
+              <!-- </p> -->
+            </div>
+  
+            <div class="text-center mt-5">
+              <img id="pipeline_framework" width="80%" src="./images/vl-rewardbench.png" alt="VL-RewardBench Pipeline">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <style>
+      .requirements-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+  
+      .requirements-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+  
+      .requirement {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+  
+      .domains-list {
+        padding-left: 1rem;
+      }
+  
+      .domain-item {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      .domain-number {
+        color: #2980b9;
+        font-weight: 600;
+      }
+  
+      .strategy-list {
+        padding-left: 1.5rem;
+      }
+  
+      .strategy-list li {
+        margin-bottom: 0.5rem;
+      }
+  
+      .verification-note {
+        background-color: #edf2f7;
+        padding: 1rem;
+        border-radius: 6px;
+        border-left: 4px solid #2980b9;
+      }
+  
+      .text-center {
+        text-align: center;
+      }
+  
+      .mb-3 {
+        margin-bottom: 1rem;
+      }
+  
+      .mb-4 {
+        margin-bottom: 1.5rem;
+      }
+  
+      .mt-5 {
+        margin-top: 2rem;
+      }
+    </style>
+  </section>
+   
+
+  
+  <section class="section">
+    <!-- Results. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-six-fifths">
+        <h2 class="title is-3">Experiments</h2>
+      </div>
+    </div>
+    <!-- </div> -->
+    <!--/ Results. -->    
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="content has-text-justified">
+          <p>
+            We present a comprehensive evaluation of 16 state-of-the-art vision-language reward models (VL-GenRMs) on VL-RewardBench, encompassing both open-source models (ranging from 7B to 90B parameters) and leading commercial systems including Gemini-1.5-Pro, Claude-3.5-Sonnet, and GPT-4. 
+
+            Our benchmark uncovers significant limitations in current VL-GenRMs: even top commercial models achieve only moderate performance (GPT-4: 62.4%, Gemini-1.5-Pro: 62.5%). Meanwhile, state-of-the-art open-source models like Qwen2-VL-72B and LLaMA-3.2-90B perform near chance level (43.0% and 53.9%, respectively). 
+          </p>
+  
+        <div style="text-align: center;">
+          <img id="pipeline_framework" width="90%" src="./images/eval_results.png">     
+        </div>
+        <br> 
+        <p>
+          Remarkably, performance on VL-RewardBench shows strong correlation (Pearson's r > 0.9) with downstream MMMU-Pro results when using these models for Best-of-N sampling guidance.
+        </p>
+        <div style="text-align: center;">
+          <img id="pipeline_framework" width="90%" src="./images/BoN-correlation.png">     
+        </div>
+      </div>
+  </section>
+  
+  <section class="section">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Next Step: How to Advance VL-GenRMs?</h2>
+      </div>
+    </div>
+  
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content has-text-justified">
+            <p class="mb-5">
+              Given the poor accuracy of VL-GenRMs on our benchmark, our analysis uncovers three critical insights for advancing VL-GenRMs:
+            </p>
+  
+            <div class="finding-box mb-4">
+              <p class="finding-content">
+                1. The primary performance bottleneck lies in visual perception rather than reasoning - models show significantly higher error rates on existence/recognition tasks (> 67%) compared to reasoning tasks (41.8%).
+                <span class="arrow">→</span>
+                <span class="conclusion">Improving Visual Perception Capability of VL-GenRMs first!</span>
+              </p>
+            </div>
+            <div class="text-center mb-4">
+              <img id="analysis_img" width="90%" src="./images/analysis_error_type.png" alt="Analysis Results">
+            </div>
+  
+            <div class="finding-box mb-4">
+              <p class="finding-content">
+              2. The effectiveness of test-time scaling varies with model capacity, providing benefits to larger models while potentially degrading smaller models' performance.
+                <span class="arrow">→</span>
+                <span class="conclusion">Advancing Test-time Scaling Strategies for VL-GenRMs.</span>
+              </p>
+            </div>
+  
+            <div class="text-center mb-4">
+              <img id="analysis_img" width="90%" src="./images/analysis_K.png" alt="Analysis Results">
+            </div>
+  
+            <div class="finding-box mb-4">
+              <p class="finding-content">
+               3.  LLaVA-Critic substantially improves judgment capabilities, demonstrated by a 14.7% accuracy gain for LLaVA-OneVision-7B-ov, with pointwise evaluation slightly outperforming pairwise scoring on average.
+                <span class="arrow">→</span>
+                <span class="conclusion">Developing a co-evolution framework for LVLMs and VL-GenRMs to improve in a self-play way.</span>
+              </p>
+            </div>
+  
+            <div class="text-center">
+              <img id="critic_img" width="90%" src="./images/critic.png" alt="Critic Results">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <style>
+      .finding-box {
+        background-color: #f8f9fa;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+  
+      .finding-content {
+        margin: 0;
+        /* line-height: 1.0; */
+      }
+  
+      .number {
+        font-weight: bold;
+        color: #2c3e50;
+      }
+  
+      .arrow {
+        color: #7f8c8d;
+        margin: 0 0.5rem;
+        font-weight: bold;
+      }
+  
+      .conclusion {
+        color: #2980b9;
+        font-weight: bold;
+      }
+  
+      .text-center {
+        text-align: center;
+      }
+  
+    </style>
   </section>
 
   <section class="section" id="BibTeX">
